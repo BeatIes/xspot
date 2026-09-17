@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="XSPOT — marca de agua digital invisible y detector de procedencia para imágenes.">
+  <title>XSPOT — Invisible Image Watermark</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#">
+      <span class="brand-mark">X</span>
+      <span>XSPOT</span>
+    </a>
+    <span class="privacy">Procesamiento local · La imagen no sale de tu dispositivo</span>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">DIGITAL PROVENANCE</p>
+        <h1>Una marca que <span>no ves.</span><br>Una máquina sí.</h1>
+        <p class="lead">Inserta una huella digital invisible en tus imágenes o analiza una imagen para descubrir si contiene una marca XSPOT.</p>
+      </div>
+      <div class="hero-badge"><span></span> LOCAL FIRST</div>
+    </section>
+
+    <nav class="tabs" aria-label="Funciones">
+      <button class="tab active" data-tab="create">Crear marca</button>
+      <button class="tab" data-tab="detect">Detectar marca</button>
+    </nav>
+
+    <section id="create" class="panel active">
+      <div class="grid">
+        <div class="card">
+          <div class="card-head">
+            <div><span class="step">01</span><h2>Imagen</h2></div>
+            <span class="hint">JPG · PNG · WEBP</span>
+          </div>
+          <label class="dropzone" id="createDrop">
+            <input id="createFile" type="file" accept="image/jpeg,image/png,image/webp">
+            <div class="upload-icon">↑</div>
+            <strong>Arrastra una imagen aquí</strong>
+            <span>o haz clic para seleccionarla</span>
+          </label>
+          <div id="createPreview" class="preview hidden">
+            <img id="createImg" alt="Vista previa">
+            <button id="removeCreate" class="ghost small">Cambiar</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div><span class="step">02</span><h2>Datos de la marca</h2></div>
+            <span class="hint">PERSONALIZABLE</span>
+          </div>
+          <div class="fields">
+            <label>Marca / proyecto<input id="wmBrand" maxlength="48" placeholder="Ej. MiMarca"></label>
+            <label>Propietario<input id="wmOwner" maxlength="64" placeholder="Ej. Juan Pérez"></label>
+            <label>Identificador <div class="id-row"><input id="wmId" maxlength="32"><button id="newId" class="ghost">Generar</button></div></label>
+            <label>Nota <textarea id="wmNote" maxlength="180" placeholder="Ej. Imagen creada por mi marca"></textarea></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <div class="status" id="createStatus">Listo para comenzar.</div>
+        <button id="embedBtn" class="primary" disabled>Crear marca invisible <span>→</span></button>
+      </div>
+
+      <div id="result" class="result hidden">
+        <div class="result-head"><div><span class="ok">✓</span><strong>Marca XSPOT creada</strong></div><span id="resultId"></span></div>
+        <div class="result-body">
+          <canvas id="resultCanvas"></canvas>
+          <div class="result-info">
+            <p>La imagen contiene una marca invisible codificada en el contenido visual. Puedes descargarla y después usar <b>Detectar marca</b> para comprobarla.</p>
+            <button id="downloadBtn" class="primary wide">Descargar imagen marcada ↓</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="detect" class="panel">
+      <div class="card detector-card">
+        <div class="card-head">
+          <div><span class="step">01</span><h2>Analizar imagen</h2></div>
+          <span class="hint">DETECCIÓN LOCAL</span>
+        </div>
+        <label class="dropzone large" id="detectDrop">
+          <input id="detectFile" type="file" accept="image/jpeg,image/png,image/webp">
+          <div class="scan-icon">⌕</div>
+          <strong>Arrastra una imagen aquí</strong>
+          <span>XSPOT buscará una marca invisible</span>
+        </label>
+        <div id="detectProgress" class="progress hidden"><div></div></div>
+      </div>
+
+      <div id="detectResult" class="detect-result hidden">
+        <div class="detect-title"><span class="ok">✓</span><div><strong>Marca XSPOT detectada</strong><small>La imagen contiene datos legibles por el detector.</small></div></div>
+        <div class="data-grid">
+          <div><small>MARCA / PROYECTO</small><strong id="dBrand">—</strong></div>
+          <div><small>PROPIETARIO</small><strong id="dOwner">—</strong></div>
+          <div><small>IDENTIFICADOR</small><strong id="dId">—</strong></div>
+          <div><small>NOTA</small><strong id="dNote">—</strong></div>
+          <div><small>FECHA DE CREACIÓN</small><strong id="dDate">—</strong></div>
+          <div><small>VERSIÓN</small><strong id="dVersion">XSPOT-1</strong></div>
+        </div>
+      </div>
+
+      <div id="noMark" class="no-mark hidden">
+        <span>×</span><div><strong>No se encontró una marca XSPOT válida.</strong><small>La imagen puede no contener una marca XSPOT o la marca pudo degradarse por compresión, recorte o transformaciones.</small></div>
+      </div>
+    </section>
+
+    <section class="how">
+      <p class="eyebrow">CÓMO FUNCIONA</p>
+      <div class="how-grid">
+        <div><b>01</b><h3>Codifica</h3><p>Los datos se convierten en bits y se distribuyen por bloques de la imagen mediante una transformación frecuencial.</p></div>
+        <div><b>02</b><h3>Oculta</h3><p>Los cambios son muy pequeños y se realizan sobre componentes de luminancia, evitando una marca visible.</p></div>
+        <div><b>03</b><h3>Detecta</h3><p>El detector busca el patrón XSPOT y reconstruye los datos almacenados.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>XSPOT · Invisible watermark prototype · Procesamiento en tu navegador</footer>
+  <script src="app.js"></script>
+</body>
+</html>
